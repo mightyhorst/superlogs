@@ -46,12 +46,10 @@ class Logger {
     return this;
   }
   getColor() {
-    let currentColor;
-    if (this.last.color < this.colors.length) {
+    const USE_RANDOM_COLORS = true;
+    let currentColor = `rgb(${this.randomColor()}, ${this.randomColor()}, ${this.randomColor()})`;;
+    if (!USE_RANDOM_COLORS && this.last.color < this.colors.length) {
       currentColor = this.colors[this.last.color++];
-    }
-    else {
-      currentColor = `rgb(${this.randomColor()}, ${this.randomColor()}, ${this.randomColor()})`;
     }
     return currentColor;
   }
