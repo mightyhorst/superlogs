@@ -17,17 +17,18 @@ npm i --dev superlogs
 ### Require
 For CommonJs
 ```js
-const logger = require('superlogs');
+const superlogs = require('superlogs');
+const logger = superlogs.logger;
 ```
 
 For Babel 
 ```js
-import * as logger from 'superlogs';
+import {logger} from 'superlogs';
 ```
 
 For Typescript 
 ```typescript
-import * as logger from 'superlogs';
+import {logger} from 'superlogs';
 ```
 
  

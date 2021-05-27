@@ -4,7 +4,8 @@
   "description": "Super logical logs",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "publish:patch": "npm version patch && npm publish"
   },
   "repository": {
     "type": "git",
