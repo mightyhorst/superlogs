@@ -4,9 +4,6 @@
 const { errorToJson } = require('./error');
 const { formats } = require('./formats');
 
-console.log('logger.formats--->', formats);
-console.log('logger.errorToJson--->', errorToJson);
-
 /**
  * @enum Step Categories
  */
