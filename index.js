@@ -70,11 +70,12 @@ class Logger {
       // this.getFormatClear(true)
     );
   }
-  addStep(stepName, stepDesc, cat) {
+  addStep(stepDesc, stepName, cat) {
     if (!cat) cat = StepCat.block;
 
+    const method = this.last.method;
     let step = {
-      name: stepName,
+      name: stepName || `step ${method.steps.length}`,
       desc: stepDesc,
       cat,
       methodName: '',
@@ -83,7 +84,6 @@ class Logger {
       logic: [],
       sequence: [],
     }
-    const method = this.last.method;
     step.methodName = method.name;
     step.methodColor = method.color;
     method.steps.push(step);
