@@ -3,9 +3,7 @@
  */
 const {errorToJson} = require('./error');
 const {formats} = require('./formats');
-
-console.log('logger.formats--->', formats);
-console.log('logger.errorToJson--->', errorToJson);
+const {loggerBrowser} = require('./logger.browser');
 
 /**
  * @enum Step Categories
@@ -34,15 +32,13 @@ class Logger {
     };
     this.methods = [];
     this.formats = formats();
+    this.log = loggerBrowser(this);
   }
   
   addNamespace(namespace){
       this.namespace = namespace;
-      this.logNamespace(namespace);
+      this.log.namespace(namespace);
       return this;
-  }
-  logNamespace(namespace) {
-    console.log(`namespace: ${namespace}`);
   }
 
   /**
@@ -61,16 +57,8 @@ class Logger {
     this.methods.push(method);
     this.last.method = method;
 
-    this.logMethod(method);
+    this.log.method(method);
     return this;
-  }
-  
-  logMethod(method) {
-    console.log(
-      `%c[${this.namespace}.${method.name}]%c  📦${method.description}`,
-      this.formats.method(method.color),
-      this.formats.method(method.color),
-    );
   }
 
   /**
@@ -98,23 +86,9 @@ class Logger {
     step.methodColor = method.color;
     method.steps.push(step);
     this.last.step = step;
-    this.logStep(step);
+    this.log.step(step);
     return this;
   }
-
-  /**
-   * Log Step
-   * @param {StepModel} step - step model
-   */
-  logStep(step) {
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c   •🦄 ${step.description}`,
-      this.formats.method(step.methodColor),
-      this.formats.step(step.methodColor)
-    );
-  }
-
-  
 
   /**
    * Add data to the step
@@ -138,7 +112,7 @@ class Logger {
       throw new Error('addData must be either a string or JSON object: '+ typeof(keyOrData));
     }
 
-    this.logData(key, val, optionalFlag);
+    this.log.data(key, val, optionalFlag);
 
     const step = this.last.step;
     step.sequence.push({
@@ -150,27 +124,6 @@ class Logger {
 
     return this;
   }
-  logData(key, val, optionalFlag) {
-    let tag = USE_EMOTICONS ? '🗂': '@data';
-    if(optionalFlag === 'success'){
-      tag = USE_EMOTICONS ? '✅': '@success';
-    }
-    else if(optionalFlag === 'failed'){
-      tag = USE_EMOTICONS ? '❌': '@fail';
-    }
-
-    const step = this.last.step;
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •[${tag}] ${key}`,
-      this.formats.method(step.methodColor),
-      this.formats.clear(),
-      {
-        [key]: val
-      }
-    );
-  }
-
-  
 
   /**
    * @function addMongo
@@ -178,7 +131,7 @@ class Logger {
    * @param {any?} debugData - optional debug data
    */
   addMongo(description, debugData) {
-    this.logMongo(description, debugData);
+    this.log.mongo(description, debugData);
 
     const step = this.last.step;
     step.sequence.push({
@@ -191,26 +144,10 @@ class Logger {
   }
 
   /**
-   * @function logMongo
-   * @param {string} description - print description
-   * @param {any?} debugData - optional debug data
-   */
-  logMongo(description, debugData) {
-    const tag = USE_EMOTICONS ? '🌳': '@mongo';
-    const step = this.last.step;
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •[${tag}] ${description}`,
-      this.formats.method(step.methodColor),
-      this.formats.clear(),
-      debugData
-    );
-  }
-
-  /**
    * @function addDispatch
    */
   addDispatch(key, val) {
-    this.logDispatch(key, val);
+    this.log.dispatch(key, val);
 
     const step = this.last.step;
     step.sequence.push({
@@ -221,24 +158,12 @@ class Logger {
 
     return this;
   }
-  logDispatch(key, val) {
-    const tag = USE_EMOTICONS ? '⚡️': '@dispatch';
-    const step = this.last.step;
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •[${tag}] ${key}`,
-      this.formats.method(step.methodColor),
-      this.formats.clear(),
-      {
-        [key]: val
-      }
-    );
-  }
 
   /**
    * @function addFetch
    */
   addFetch(method, url, body, headers) {
-    this.logFetch(`${method} ${url}`, { method, url, body, headers });
+    this.log.fetch(`${method} ${url}`, { method, url, body, headers });
 
     const step = this.last.step;
     step.sequence.push({
@@ -251,24 +176,12 @@ class Logger {
 
     return this;
   }
-  logFetch(key, val) {
-    const tag = USE_EMOTICONS ? '☁️': '@fetch';
-    const step = this.last.step;
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •[${tag}] ${key}`,
-      this.formats.method(step.methodColor),
-      this.formats.clear(),
-      {
-        [key]: val
-      }
-    );
-  }
 
   /**
    * @function addFireEvent
    */
   addFireEvent(key, val, channel) {
-    this.logFireEvent(key, val, channel);
+    this.log.fireEvent(key, val, channel);
 
     const step = this.last.step;
     step.sequence.push({
@@ -279,19 +192,6 @@ class Logger {
     });
 
     return this;
-  }
-  logFireEvent(key, val, channel) {
-    const tag = USE_EMOTICONS ? '💥': '@event';
-    const step = this.last.step;
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •[${tag}] ${key}`,
-      this.formats.method(step.methodColor),
-      this.formats.clear(),
-      {
-        [key]: val,
-        channel
-      }
-    );
   }
 
   /**
@@ -311,24 +211,11 @@ class Logger {
       description,
     });
     
-    this.logError(
+    this.log.error(
       errorJson,
       description
     );
     return this;
-  }
-  logError(errorJson, description) {
-    const tag = USE_EMOTICONS ? '💩': '@error';
-    const step = this.last.step;
-
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •[${tag}] ${description}`,
-      this.formats.method(step.methodColor),
-      this.formats.error(),
-      {
-        error: errorJson
-      }
-    );
   }
 
   /**
@@ -349,22 +236,11 @@ class Logger {
       description,
     });
     
-    this.logThrows(
+    this.log.throws(
       errorJson,
       description
     );
     return this;
-  }
-
-  logThrows(errorJson, description) {
-    const tag = USE_EMOTICONS ? '💣': '@throws';
-    const step = this.last.step;
-
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •[${tag}] ---> ${description}`,
-      this.formats.method(step.methodColor),
-      this.formats.error(),
-    );
   }
 
   /**
@@ -378,7 +254,7 @@ class Logger {
 
     if(!namespace) namespace = this.last.namespace;
 
-    this.logGoTo(namespace, method);
+    this.log.goTo(namespace, method);
 
     const step = this.last.step;
     step.sequence.push({
@@ -388,15 +264,6 @@ class Logger {
     });
 
     return this;
-  }
-  logGoTo(gotoNamespace, gotoMethod, isReturn) {
-    const tag = USE_EMOTICONS ? '👉': '@goto';
-    const step = this.last.step;
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •[@goto] ${isReturn ? '👈...': '👉...'} ${gotoNamespace}.${gotoMethod}`,
-      this.formats.method(step.methodColor),
-      this.formats.goTo()
-    );
   }
 
   /**
@@ -408,30 +275,15 @@ class Logger {
    */
    addCheck(checkDesc, debugData) {
     const step = this.last.step;
-    this.logCheck(checkDesc, debugData);
+    this.log.check(checkDesc, debugData);
     return this;
-  }
-
-  /**
-   * Log Check
-   * @param {string} checkDesc - checkDesc
-   * @param {any?} debugData? - optional debug data
-   */
-  logCheck(checkDesc, debugData) {
-    const step = this.last.step;
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c   •🖐[@check] ${checkDesc}`,
-      this.formats.method(step.methodColor),
-      this.formats.check(),
-      debugData,
-    );
   }
 
   /**
    * @function addIf
    */
   addIf(description, val) {
-    this.logIf(description, val, 'if');
+    this.log.if(description, val, 'if');
 
     const step = this.last.step;
 
@@ -453,7 +305,7 @@ class Logger {
     return this;
   }
   addElseIf(description, val) {
-    this.logIf(description, val, 'elseif');
+    this.log.if(description, val, 'elseif');
 
     const step = this.last.step;
     step.sequence.push({
@@ -465,7 +317,7 @@ class Logger {
     return this;
   }
   addElse(description, val) {
-    this.logIf(key, val, 'else');
+    this.log.if(key, val, 'else');
 
     const step = this.last.step;
     step.sequence.push({
@@ -480,18 +332,6 @@ class Logger {
     const logic = this.last.logic;
     logic.isOpen = false;
     return this;
-  }
-  logIf(statement, val, ifType) {
-    if(!ifType) ifType = StepCat.ifBlock;
-
-    const tag = USE_EMOTICONS ? '🔷': '';
-    const step = this.last.step;
-    console.log(
-      `%c[${this.namespace}.${step.methodName}]%c      •${tag} [@${ifType}] ${statement}`,
-      this.formats.method(step.methodColor),
-      this.formats.if(),
-      val
-    );
   }
 }
 
