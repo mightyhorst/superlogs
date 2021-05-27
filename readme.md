@@ -1,4 +1,4 @@
-#🦄🦄 SuperLogs
+# 🦄 SuperLogs
 Super simple logs. 
 
 Super logs uses the builder pattern to not just build logs but also build a relationship tree between runtime code
