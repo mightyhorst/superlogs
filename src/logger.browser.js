@@ -105,29 +105,37 @@ class LoggerBrowser {
         );
     }
 
-    dispatch(key, val) {
+    /**
+     * log dispatch
+     * @param {string} type - dispatch action
+     * @param {any} payload - action value
+     */
+    dispatch(type, payload) {
         const tag = USE_EMOTICONS ? '⚡️' : '@dispatch';
         const step = this.app.last.step;
         console.log(
-            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${key}`,
+            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${type}`,
             this.formats.method(step.methodColor),
             this.formats.clear(),
             {
-                [key]: val
+                [type]: payload
             }
         );
     }
 
-    fetch(key, val) {
+    /**
+     * log fetch
+     * @param {string} description - description e.g. GET /url 
+     * @param {any} debugValue - optional value to print
+     */
+    fetch(description, debugValue) {
         const tag = USE_EMOTICONS ? '☁️' : '@fetch';
         const step = this.app.last.step;
         console.log(
-            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${key}`,
+            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${description}`,
             this.formats.method(step.methodColor),
             this.formats.clear(),
-            {
-                [key]: val
-            }
+            debugValue,
         );
     }
 

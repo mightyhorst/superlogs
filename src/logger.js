@@ -145,15 +145,20 @@ class Logger {
 
   /**
    * @function addDispatch
+   * @param {string} actionType - action type
+   * @param {any} actionPayload - action payload
+   * @returns {Logger} app
    */
-  addDispatch(key, val) {
-    this.log.dispatch(key, val);
+  addDispatch(actionType, actionPayload) {
+    this.log.dispatch(actionType, actionPayload);
 
     const step = this.last.step;
     step.sequence.push({
       type: 'dispatch',
-      key: key,
-      val: val,
+      action: {
+        type: actionType,
+        payload: actionPayload,
+      }
     });
 
     return this;
