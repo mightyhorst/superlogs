@@ -32,6 +32,13 @@ class Logger {
   logNamespace(namespace) {
     console.log(`namespace: ${namespace}`);
   }
+
+  /**
+   * Add Method
+   * @param {string} methodName - method name
+   * @param {string} methodDesc - method description
+   * @returns 
+   */
   addMethod(methodName, methodDesc) {
     let method = {
       name: methodName,
@@ -53,8 +60,11 @@ class Logger {
     }
     return currentColor;
   }
-  getFormat(color, isBold) {
+  getFormatMethod(color, isBold) {
     return `background: ${color}; color:white; padding: 2px; border: 1px solid rgba(0,0,0,.1); border-radius: 2px; font-weight: ${isBold ? 'bold' : 'normal'}`;
+  }
+  getFormatStep(color, isBold, isItalic) {
+    return `background: #fff; color:${color || '#000'}; font-weight: ${isBold ? 'bold' : 'normal'}; font-style: ${isItalic ? 'italic' : 'none'}`;
   }
   getFormatClear(isBold, isItalic) {
     return `background: #fff; color:#000; font-weight: ${isBold ? 'bold' : 'normal'}; font-style: ${isItalic ? 'italic' : 'none'}`;
@@ -65,8 +75,8 @@ class Logger {
   logMethod(method) {
     console.log(
       `%c[${this.namespace}.${method.name}]%c  📦${method.desc}`,
-      this.getFormat(method.color),
-      this.getFormat(method.color),
+      this.getFormatMethod(method.color),
+      this.getFormatMethod(method.color),
       // this.getFormatClear(true)
     );
   }
@@ -94,8 +104,8 @@ class Logger {
   logStep(step) {
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c   •🦄[@${step.cat}] ${step.desc}`,
-      this.getFormat(step.methodColor),
-      this.getFormatClear(true, false)
+      this.getFormatMethod(step.methodColor),
+      this.getFormatStep(step.methodColor)
     );
   }
   addData(key, val) {
@@ -115,7 +125,7 @@ class Logger {
     const step = this.last.step;
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c      •[@data] ${key}`,
-      this.getFormat(step.methodColor),
+      this.getFormatMethod(step.methodColor),
       this.getFormatClear(),
       {
         [key]: val
@@ -139,7 +149,7 @@ class Logger {
     const step = this.last.step;
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c      •[@error] ${key}`,
-      this.getFormat(step.methodColor),
+      this.getFormatMethod(step.methodColor),
       this.getFormatError(),
       {
         [key]: val
@@ -166,7 +176,7 @@ class Logger {
     const step = this.last.step;
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c      •[@mongo] ${key}`,
-      this.getFormat(step.methodColor),
+      this.getFormatMethod(step.methodColor),
       this.getFormatClear(),
       {
         [key]: val
@@ -193,7 +203,7 @@ class Logger {
     const step = this.last.step;
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c      •[@dispatch] ${key}`,
-      this.getFormat(step.methodColor),
+      this.getFormatMethod(step.methodColor),
       this.getFormatClear(),
       {
         [key]: val
@@ -222,7 +232,7 @@ class Logger {
     const step = this.last.step;
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c      •[@fetch] ${key}`,
-      this.getFormat(step.methodColor),
+      this.getFormatMethod(step.methodColor),
       this.getFormatClear(),
       {
         [key]: val
@@ -250,7 +260,7 @@ class Logger {
     const step = this.last.step;
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c      •[@event] ${key}`,
-      this.getFormat(step.methodColor),
+      this.getFormatMethod(step.methodColor),
       this.getFormatClear(),
       {
         [key]: val,
@@ -280,7 +290,7 @@ class Logger {
     const step = this.last.step;
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c      •[@throw] ${key}`,
-      this.getFormat(step.methodColor),
+      this.getFormatMethod(step.methodColor),
       this.getFormatError(),
       {
         [key]: val,
@@ -292,7 +302,10 @@ class Logger {
   /**
    * @function addGoto
    */
-  addGoto(namespace, method) {
+  addGoto(method, namespace) {
+
+    if(!namespace) namespace = this.last.namespace;
+
     this.logGoTo(namespace, method);
 
     const step = this.last.step;
@@ -308,7 +321,7 @@ class Logger {
     const step = this.last.step;
     console.log(
       `%c[${this.namespace}.${step.methodName}]%c      •[@goto] 👉 ${gotoNamespace}.${gotoMethod}`,
-      this.getFormat(step.methodColor),
+      this.getFormatMethod(step.methodColor),
       this.getFormatError()
     );
   }
