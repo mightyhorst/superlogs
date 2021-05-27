@@ -1,0 +1,22 @@
+{
+  "name": "superlogs",
+  "version": "1.0.0",
+  "description": "Super logical logs",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitni455/superlogs.git"
+  },
+  "keywords": [
+    "logs"
+  ],
+  "author": "Nick Mitchell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mitni455/superlogs/issues"
+  },
+  "homepage": "https://github.com/mitni455/superlogs#readme"
+}
