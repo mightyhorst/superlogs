@@ -285,6 +285,37 @@ class Logger {
   }
 
   /**
+   * @function addLoop
+   */
+  addLoop(description, debugData, loopType = 'for') {
+    this.log.loop(description, debugData, loopType);
+
+    const step = this.last.step;
+
+    const logic = {
+      type: 'for',
+      parentStep: step,
+      description, 
+      val: debugData,
+      isOpen: true,
+    };
+    this.last.logic = logic;
+
+    step.sequence.push({
+      type: 'for',
+      description,
+      val: debugData,
+    })
+
+    return this;
+  }
+  addEndFor() {
+    const logic = this.last.logic;
+    logic.isOpen = false;
+    return this;
+  }
+
+  /**
    * @function addIf
    */
   addIf(description, val) {

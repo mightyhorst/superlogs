@@ -237,6 +237,24 @@ class LoggerBrowser {
             val
         );
     }
+
+    /**
+     * 
+     * @param {string} description - description of the loop
+     * @param {any?} debugData - optional data to loop through
+     * @param {'for'|'forEach'} loopType - for or forEach
+     */
+    loop(description, debugData, loopType) {
+        const tag = USE_EMOTICONS ? '🔄' : '@'+loopType;
+        const step = this.app.last.step;
+
+        console.log(
+            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${description}`,
+            this.formats.method(step.methodColor),
+            this.formats.loop(),
+            debugData,
+        );
+    }
 }
 
 function loggerBrowser(app) {
