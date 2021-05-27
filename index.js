@@ -357,4 +357,6 @@ function logger(namespace) {
   return new Logger(namespace);
 }
 
-module.exports = logger;
+module.exports = {
+  logger,
+};
