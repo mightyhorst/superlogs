@@ -72,8 +72,11 @@ class Logger {
     if (!cat) cat = StepCat.block;
 
     const method = this.last.method;
+
+    if(!method) console.error('💩 Adding step when there is no method', this.last);
+
     let step = {
-      name: stepName || `step ${method.steps.length}`,
+      name: stepName || (method && method.steps) ? `step ${method.steps.length}` : `step ∞`,
       description: stepDesc,
       cat,
       methodName: '',
@@ -273,6 +276,9 @@ class Logger {
 
     return this;
   }
+  addGoTo(method, namespace, isReturn) {
+    return this.addGoto(method, namespace, isReturn);
+  }
 
   /**
    * @function addCheck
@@ -281,7 +287,7 @@ class Logger {
    * @param {any?} debugData? - optional debug data
    * @returns 
    */
-   addCheck(checkDesc, debugData) {
+  addCheck(checkDesc, debugData) {
     const step = this.last.step;
     this.log.check(checkDesc, debugData);
     return this;
