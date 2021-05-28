@@ -247,6 +247,9 @@ class Logger {
     );
     return this;
   }
+  addThrow(error, optionalDescription){
+    return this.addThrows(error, optionalDescription)
+  }
 
   /**
    * @function addGoto
@@ -293,7 +296,7 @@ class Logger {
     const step = this.last.step;
 
     const logic = {
-      type: 'for',
+      type: loopType,
       parentStep: step,
       description, 
       val: debugData,
@@ -302,7 +305,7 @@ class Logger {
     this.last.logic = logic;
 
     step.sequence.push({
-      type: 'for',
+      type: loopType,
       description,
       val: debugData,
     })
