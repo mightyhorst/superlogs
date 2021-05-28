@@ -321,7 +321,16 @@ class Logger {
 
     return this;
   }
-  addEndFor() {
+  addFor(description, debugData){
+    return this.addLoop(description, debugData, 'for');
+  }
+  addForEach(description, debugData){
+    return this.addLoop(description, debugData, 'foreach');
+  }
+  addMap(description, debugData){
+    return this.addLoop(description, debugData, 'map');
+  }
+  addEndLoop() {
     const logic = this.last.logic;
     logic.isOpen = false;
     return this;
