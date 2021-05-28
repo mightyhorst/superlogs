@@ -296,7 +296,10 @@ class Logger {
   /**
    * @function addLoop
    */
-  addLoop(description, debugData, loopType = 'for') {
+  addLoop(description, debugData, loopType) {
+
+    if(!loopType) loopType = 'for';
+
     this.log.loop(description, debugData, loopType);
 
     const step = this.last.step;
@@ -314,7 +317,7 @@ class Logger {
       type: loopType,
       description,
       val: debugData,
-    })
+    });
 
     return this;
   }
