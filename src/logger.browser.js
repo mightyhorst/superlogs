@@ -87,6 +87,25 @@ class LoggerBrowser {
     }
 
     /**
+     * returns 
+     * @param {string} key - return key
+     * @param {any} val - return payload
+     */
+    returns(key, val) {
+        let tag = USE_EMOTICONS ? '🌈' : '@returns';
+
+        const step = this.app.last.step;
+        console.log(
+            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${key}`,
+            this.formats.method(step.methodColor),
+            this.formats.clear(),
+            {
+                [key]: val
+            }
+        );
+    }
+
+    /**
      * @function logMongo
      * @param {string} description - print description
      * @param {any?} debugData - optional debug data
@@ -202,6 +221,49 @@ class LoggerBrowser {
     }
 
     /**
+     * Log Try
+     * @param {string} description - checkDesc
+     */
+    logTry(description) {
+        const step = this.app.last.step;
+        console.log(
+            `%c[${this.app.namespace}.${step.methodName}]%c   •⛏[@try] ${description}`,
+            this.formats.method(step.methodColor),
+            this.formats.check(),
+        );
+    }
+    
+    /**
+     * Log Then
+     * @param {string} description - description
+     * @param {any} payload - payload
+     */
+     logThen(description, payload) {
+        const step = this.app.last.step;
+        console.log(
+            `%c[${this.app.namespace}.${step.methodName}]%c   •🤽‍♂️[@then] ${description}`,
+            this.formats.method(step.methodColor),
+            this.formats.then(),
+            payload,
+        );
+    }
+    
+    /**
+     * Log Catch
+     * @param {string} description - description
+     * @param {any} catchPayload - catch payload
+     */
+    logCatch(description, catchPayload) {
+        const step = this.app.last.step;
+        console.log(
+            `%c[${this.app.namespace}.${step.methodName}]%c   •🥅[@catch] ${description}`,
+            this.formats.method(step.methodColor),
+            this.formats.catch(),
+            catchPayload,
+        );
+    }
+    
+    /**
      * Log Check
      * @param {string} checkDesc - checkDesc
      * @param {any?} debugData? - optional debug data
@@ -212,12 +274,12 @@ class LoggerBrowser {
             `%c[${this.app.namespace}.${step.methodName}]%c   •🖐[@check] ${checkDesc}`,
             this.formats.method(step.methodColor),
             this.formats.check(),
-            debugData,
+            debugData || '',
         );
     }
 
     /**
-     * 
+     * log if
      * @param {string} statement - the if statement description
      * @param {any?} val - optional value to print
      * @param {StepCat} ifType - 'if' | 'elseif' | 'else'
@@ -231,7 +293,7 @@ class LoggerBrowser {
             `%c[${this.app.namespace}.${step.methodName}]%c      •${tag} [@${ifType}] ${statement}`,
             this.formats.method(step.methodColor),
             this.formats.if(),
-            val
+            val || ''
         );
     }
 
@@ -249,7 +311,7 @@ class LoggerBrowser {
             `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${description}`,
             this.formats.method(step.methodColor),
             this.formats.loop(),
-            debugData,
+            debugData || '',
         );
     }
 }

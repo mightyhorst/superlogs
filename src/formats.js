@@ -35,6 +35,14 @@ class Formats {
       font-style: 'italic';
     `;
   }
+  then() {
+    return `
+      background: #fff; 
+      color: rgba(0,0,0,.7); 
+      font-weight: 'normal'; 
+      font-style: 'italic';
+    `;
+  }
   goTo() {
     return `
       background: #fff; 
@@ -58,6 +66,9 @@ class Formats {
       font-weight: ${isBold ? 'bold' : 'normal'}; 
       font-style: ${isItalic ? 'italic' : 'none'};
     `;
+  }
+  catch(){
+    return this.error();
   }
   loop() {
     return `

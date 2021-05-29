@@ -45,15 +45,17 @@ class Logger {
    * Add Method
    * @param {string} methodName - method name
    * @param {string} methodDesc - method description
+   * @param {string} methodArgs - method arguments
    * @returns 
    */
-  addMethod(methodName, methodDesc) {
+  addMethod(methodName, methodDesc, methodArgs) {
     let method = {
       name: methodName,
-      description: methodDesc,
       color: this.formats.getColor(),
       steps: [],
     }
+    if(methodDesc) method.description = methodDesc;
+    if(methodArgs) method.args = methodArgs;
     this.methods.push(method);
     this.last.method = method;
 
@@ -93,6 +95,30 @@ class Logger {
     return this;
   }
 
+  addReturns(payload) {
+
+    let key, val;
+    if(typeof(payload) === 'object'){
+      key = Object.keys(payload)[0];
+      val = payload[key];
+    }
+    else{
+      throw new Error('addReturns must be either a string or JSON object: '+ typeof(payload));
+    }
+
+    this.log.returns(key, val);
+
+    const step = this.last.step;
+    step.sequence.push({
+      type: 'returns',
+      key: key,
+      val: val,
+    })
+    step.data.push({ key, val });
+
+    return this;
+  }
+
   /**
    * Add data to the step
    * @param {string|any} keyOrData - key or json
@@ -126,6 +152,12 @@ class Logger {
     step.data.push({ key, val });
 
     return this;
+  }
+  addSuccess(keyOrData, dataValIfKey){
+    return this.addData(keyOrData, dataValIfKey, 'success');
+  }
+  addFailed(keyOrData, dataValIfKey){
+    return this.addData(keyOrData, dataValIfKey, 'failed');
   }
 
   /**
@@ -214,7 +246,7 @@ class Logger {
     
     const step = this.last.step;
     step.sequence.push({
-      type: 'throws',
+      type: 'error',
       error: errorJson,
       description,
     });
@@ -292,6 +324,16 @@ class Logger {
     this.log.check(checkDesc, debugData);
     return this;
   }
+  addTry(description) {
+    const step = this.last.step;
+    this.log.logTry(description);
+    return this;
+  }
+  addCatch(description, catchPayload) {
+    const step = this.last.step;
+    this.log.logCatch(description, catchPayload);
+    return this;
+  }
 
   /**
    * @function addLoop
@@ -325,7 +367,7 @@ class Logger {
     return this.addLoop(description, debugData, 'for');
   }
   addForEach(description, debugData){
-    return this.addLoop(description, debugData, 'foreach');
+    return this.addLoop(description, debugData, 'forEach');
   }
   addMap(description, debugData){
     return this.addLoop(description, debugData, 'map');
