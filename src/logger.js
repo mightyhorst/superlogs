@@ -118,6 +118,30 @@ class Logger {
 
     return this;
   }
+  addDone(payload) {
+
+    let key, val;
+    if(typeof(payload) === 'object'){
+      key = Object.keys(payload)[0];
+      val = payload[key];
+    }
+    else{
+      throw new Error('addDone must be either a string or JSON object: '+ typeof(payload));
+    }
+
+    this.log.done(key, val);
+
+    const step = this.last.step;
+    step.sequence.push({
+      type: 'done',
+      key: key,
+      val: val,
+    })
+    step.data.push({ key, val });
+
+    return this;
+  }
+  
 
   /**
    * Add data to the step

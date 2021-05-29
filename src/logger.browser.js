@@ -104,6 +104,25 @@ class LoggerBrowser {
             }
         );
     }
+    
+    /**
+     * done 
+     * @param {string} key - return key
+     * @param {any} val - return payload
+     */
+    done(key, val) {
+        let tag = USE_EMOTICONS ? '🌈' : '@done';
+
+        const step = this.app.last.step;
+        console.log(
+            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${key}`,
+            this.formats.method(step.methodColor),
+            this.formats.clear(),
+            {
+                [key]: val
+            }
+        );
+    }
 
     /**
      * @function logMongo

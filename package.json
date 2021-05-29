@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "publish:patch": "npm version patch && npm publish",
-    "publish:minor": "npm version minor && npm publish",
-    "publish:major": "npm version major && npm publish"
+    "publish:patch": "npm version patch && npm publish && git push",
+    "publish:minor": "npm version minor && npm publish && git push",
+    "publish:major": "npm version major && npm publish && git push"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   "keywords": [
     "logs"
   ],
-  "author": "Nick Mitchell",
+  "author": "Nick Mitchell (<nickymitch@gmail.com>)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mitni455/superlogs/issues"
