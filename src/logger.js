@@ -211,7 +211,11 @@ class Logger {
    * @param {any} actionPayload - action payload
    * @returns {Logger} app
    */
-  addDispatch(actionType, actionPayload, optionalActionLifecycle) {
+  addDispatch(
+    actionType, 
+    actionPayload, 
+    optionalActionLifecycle
+  ) {
     this.log.dispatch(actionType, actionPayload, optionalActionLifecycle);
 
     let action = {

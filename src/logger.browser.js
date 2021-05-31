@@ -158,7 +158,10 @@ class LoggerBrowser {
         const step = this.app.last.step;
 
         let debugData = {};
-        if(payload) debugData.payload = payload;
+        if(payload){
+            payload = `{${payload}}`;
+            debugData.payload = payload;
+        }
         if(optionalLifecycle) debugData.lifecycle = optionalLifecycle;
 
         console.log(
