@@ -208,8 +208,8 @@ class Logger {
    * @param {any} actionPayload - action payload
    * @returns {Logger} app
    */
-  addDispatch(actionType, actionPayload) {
-    this.log.dispatch(actionType, actionPayload);
+  addDispatch(actionType, actionPayload, optionalActionLifecycle) {
+    this.log.dispatch(actionType, actionPayload, optionalActionLifecycle);
 
     const step = this.last.step;
     step.sequence.push({
@@ -217,6 +217,7 @@ class Logger {
       action: {
         type: actionType,
         payload: actionPayload,
+        lifecycle: optionalActionLifecycle,
       }
     });
 

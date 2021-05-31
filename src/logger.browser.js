@@ -145,15 +145,22 @@ class LoggerBrowser {
      * log dispatch
      * @param {string} type - dispatch action
      * @param {any} payload - action value
+     * @param {'pending'|'success'|'failed'} optionalLifecycle - optional lifecycle
      */
-    dispatch(type, payload) {
+    dispatch(type, payload, optionalLifecycle) {
         const tag = USE_EMOTICONS ? '💥' : '@dispatch';
         const step = this.app.last.step;
+
+        let debugData = {
+            payload,
+        };
+        if(optionalLifecycle) debugData.lifecycle = optionalLifecycle;
+
         console.log(
             `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${type}`,
             this.formats.method(step.methodColor),
             this.formats.clear(),
-            payload,
+            debugData,
         );
     }
 
