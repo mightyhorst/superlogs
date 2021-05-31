@@ -233,8 +233,13 @@ class LoggerBrowser {
     goTo(gotoNamespace, gotoMethod, isReturn) {
         const tag = USE_EMOTICONS ? '👉' : '@goto';
         const step = this.app.last.step;
+
+        const txt = gotoNamespace ? 
+            `${gotoNamespace}.${gotoMethod}` : 
+            `${gotoMethod}`;
+
         console.log(
-            `%c[${this.app.namespace}.${step.methodName}]%c      •[@goto] ${isReturn ? '👈...' : '👉...'} ${gotoNamespace}.${gotoMethod}`,
+            `%c[${this.app.namespace}.${step.methodName}]%c      •[@goto] ${isReturn ? '👈...' : '👉...'} ${txt}`,
             this.formats.method(step.methodColor),
             this.formats.goTo()
         );
