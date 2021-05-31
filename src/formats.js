@@ -21,8 +21,8 @@ class Formats {
   }
   step(color, isBold, isItalic) {
     return `
-      background: #fff; 
-      color:${color}; 
+      color: #fff; 
+      background-color:${color}; 
       font-weight: ${isBold ? 'bold' : 'normal'}; 
       font-style: ${isItalic ? 'italic' : 'none'}
     `;
