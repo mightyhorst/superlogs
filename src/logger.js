@@ -211,14 +211,20 @@ class Logger {
   addDispatch(actionType, actionPayload, optionalActionLifecycle) {
     this.log.dispatch(actionType, actionPayload, optionalActionLifecycle);
 
+    let action = {
+      type: actionType,
+    }
+    if(actionPayload){
+      action.payload = actionPayload;
+    }
+    if(optionalActionLifecycle){
+      action.lifecycle = optionalActionLifecycle;
+    }
+
     const step = this.last.step;
     step.sequence.push({
       type: 'dispatch',
-      action: {
-        type: actionType,
-        payload: actionPayload,
-        lifecycle: optionalActionLifecycle,
-      }
+      action
     });
 
     return this;

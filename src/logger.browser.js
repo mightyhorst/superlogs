@@ -157,9 +157,8 @@ class LoggerBrowser {
         const tag = USE_EMOTICONS ? '💥' : '@dispatch';
         const step = this.app.last.step;
 
-        let debugData = {
-            payload,
-        };
+        let debugData = {};
+        if(payload) debugData.payload = payload;
         if(optionalLifecycle) debugData.lifecycle = optionalLifecycle;
 
         console.log(
@@ -186,6 +185,12 @@ class LoggerBrowser {
         );
     }
 
+    /**
+     * Fire event
+     * @param {string} key - event name
+     * @param {any} val - payload
+     * @param {string} channel - 'rabbit','socket','document'
+     */
     fireEvent(key, val, channel) {
         const tag = USE_EMOTICONS ? '💥' : '@event';
         const step = this.app.last.step;
