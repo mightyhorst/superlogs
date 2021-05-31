@@ -98,7 +98,10 @@ class Logger {
   addReturns(payload) {
 
     let key, val;
-    if(typeof(payload) === 'object'){
+    if(key === null){
+      key = 'null';
+    }
+    else if(typeof(payload) === 'object'){
       key = Object.keys(payload)[0];
       val = payload[key];
     }
