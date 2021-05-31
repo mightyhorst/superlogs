@@ -54,8 +54,9 @@ class LoggerBrowser {
      */
     step(step) {
         console.log(
-            `%c[${this.app.namespace}.${step.methodName}]%c   •🦄 ${step.description}`,
+            `%c[${this.app.namespace}.${step.methodName}]%c   %c•🦄 ${step.description}`,
             this.formats.method(step.methodColor),
+            this.formats.clear(),
             this.formats.step(step.methodColor)
         );
     }
@@ -146,7 +147,7 @@ class LoggerBrowser {
      * @param {any} payload - action value
      */
     dispatch(type, payload) {
-        const tag = USE_EMOTICONS ? '⚡️' : '@dispatch';
+        const tag = USE_EMOTICONS ? '💥' : '@dispatch';
         const step = this.app.last.step;
         console.log(
             `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${type}`,
@@ -164,7 +165,7 @@ class LoggerBrowser {
      * @param {any} debugValue - optional value to print
      */
     fetch(description, debugValue) {
-        const tag = USE_EMOTICONS ? '☁️' : '@fetch';
+        const tag = USE_EMOTICONS ? '📩' : '@fetch';
         const step = this.app.last.step;
         console.log(
             `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${description}`,
