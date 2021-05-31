@@ -41,9 +41,15 @@ class LoggerBrowser {
      * @param {string} method - method name
      */
     method(method) {
+        /*
         console.log(
             `%c[${this.app.namespace}.${method.name}]%c  📦${method.description}`,
             this.formats.method(method.color),
+            this.formats.method(method.color),
+        );
+        */
+        console.log(
+            `%c[${this.app.namespace}.${method.name}]   📦${method.description}     `,
             this.formats.method(method.color),
         );
     }
