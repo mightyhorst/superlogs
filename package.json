@@ -1,6 +1,6 @@
 {
   "name": "superlogs",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Super logical logs",
   "main": "index.js",
   "scripts": {
