@@ -153,9 +153,7 @@ class LoggerBrowser {
             `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ${type}`,
             this.formats.method(step.methodColor),
             this.formats.clear(),
-            {
-                [type]: payload
-            }
+            payload,
         );
     }
 
