@@ -218,7 +218,7 @@ class LoggerBrowser {
         const step = this.app.last.step;
 
         console.log(
-            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ---> ${description}`,
+            `%c[${this.app.namespace}.${step.methodName}]%c      •[${tag}] ---> ${errorJson.name}`,
             this.formats.method(step.methodColor),
             this.formats.error(),
         );
