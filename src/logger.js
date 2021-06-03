@@ -455,6 +455,7 @@ class Logger {
     return this;
   }
   addElse(description, val) {
+    const key = description;
     this.log.if(key, val, 'else');
 
     const step = this.last.step;
