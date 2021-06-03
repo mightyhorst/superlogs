@@ -68,9 +68,10 @@ class Logger {
    * @param {string} stepDesc - description
    * @param {string} stepName - name
    * @param {StepCat} cat - category of block, if, else, elseIf
+   * @param {string} optionalMethodName - this is used because sometimes the last method is buggy, it will change the methodname when the execution path changes method scope
    * @returns 
    */
-  addStep(stepDesc, stepName, cat) {
+  addStep(stepDesc, stepName, cat, optionalMethodName) {
     if (!cat) cat = StepCat.block;
 
     const method = this.last.method;
@@ -87,7 +88,7 @@ class Logger {
       logic: [],
       sequence: [],
     }
-    step.methodName = method.name;
+    step.methodName = optionalMethodName || method.name;
     step.methodColor = method.color;
     method.steps.push(step);
     this.last.step = step;
