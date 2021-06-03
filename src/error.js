@@ -6,7 +6,7 @@ function errorToJson(error) {
 
     if(!error.stack){
         const err = new Error(`error.stack is not set. [@error] ${JSON.stringify(error, null, 4)}`);
-        console.err(err);
+        console.warn(err.message);
 
         return {
             name,
